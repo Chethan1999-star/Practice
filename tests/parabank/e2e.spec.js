@@ -1,0 +1,32 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://parabank.parasoft.com/parabank/index.htm');
+  await page.locator('input[name="username"]').fill('Username');
+  await page.locator('input[name="password"]').fill('Password@123');
+  await page.getByRole('button', { name: 'Log In' }).click();
+  await page.getByRole('link', { name: 'Open New Account' }).click();
+  await page.locator('#type').selectOption('1');
+  await page.getByRole('button', { name: 'Open New Account' }).click();
+ // await expect(page.getByText('Congratulations, your account')).toBeVisible();
+  await page.getByRole('link', { name: 'Accounts Overview' }).click();
+  await expect(page.getByRole('heading', { name: 'Accounts Overview' })).toBeVisible();
+  await page.getByRole('link', { name: 'Transfer Funds' }).click();
+  await page.locator('#amount').fill('100');
+  await page.getByRole('button', { name: 'Transfer' }).click();
+  await expect(page.getByRole('heading', { name: 'Transfer Complete!' })).toBeVisible();
+  await page.getByRole('link', { name: 'Find Transactions' }).click();
+  await page.locator('#accountId').selectOption('20781');
+  await page.locator('#transactionId').fill('123');
+  await page.locator('#transactionDate').fill('05-11-2026');
+  await page.locator('#fromDate').fill('11-06-2026');
+  await page.locator('#toDate').fill('12-07-2026');
+  await page.locator('#amount').click();
+  await page.locator('#findByAmount').click();
+  await page.locator('#amount').click();
+  await page.locator('#amount').fill('2000');
+  await page.locator('#findByAmount').click();
+  await page.getByRole('link', { name: 'Update Contact Info' }).click();
+  await page.getByRole('link', { name: 'Log Out' }).click();
+  await expect(page.getByRole('heading', { name: 'Customer Login' })).toBeVisible();
+});
